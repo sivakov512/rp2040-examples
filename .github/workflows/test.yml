@@ -1,0 +1,80 @@
+name: test
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macOS-latest
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          target: thumbv6m-none-eabi
+          toolchain: stable
+
+      - id: prep
+        run: |
+          echo "base_key=${{ github.workflow }}-${{ github.job }}-${{ matrix.os }}-${{ steps.toolchain.outputs.rustc_hash }}-${{ hashFiles('Cargo.toml') }}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            ./target
+          key: ${{ steps.prep.outputs.base_key }}-${{ github.ref }}
+          restore-keys: |
+            ${{ steps.prep.outputs.base_key }}-refs/heads/master
+            ${{ steps.prep.outputs.base_key }}-
+
+      - run: cargo install flip-link
+
+      - run: cargo build --all
+
+      - run: cargo build --all --release
+
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          components: rustfmt, clippy
+          target: thumbv6m-none-eabi
+          toolchain: stable
+
+      - id: prep
+        run: |
+          echo "base_key=${{ github.workflow }}-${{ github.job }}-${{ steps.toolchain.outputs.rustc_hash }}-${{ hashFiles('Cargo.toml') }}" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            ./target
+          key: ${{ steps.prep.outputs.base_key }}-${{ github.ref }}
+          restore-keys: |
+            ${{ steps.prep.outputs.base_key }}-refs/heads/master
+            ${{ steps.prep.outputs.base_key }}-
+
+      - run: cargo fmt --all -- --check
+
+      - run: cargo clippy -- -D warnings

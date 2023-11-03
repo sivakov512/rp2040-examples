@@ -1,0 +1,21 @@
+[package]
+edition = "2021"
+license = "MIT"
+name = "rp2040-project-template"
+version = "0.1.0"
+
+[dependencies]
+cortex-m = "0.7"
+cortex-m-rt = "0.7"
+defmt = "0.3"
+defmt-rtt = "0.4"
+embedded-hal = { version = "0.2", features = ["unproven"] }
+panic-probe = { version = "0.3", features = ["print-defmt"] }
+# Board support for RP Pico
+rp-pico = "0.8"
+# If you're not going to use a Board Support Package you'll need these:
+# rp2040-hal = { version="0.9", features=["rt", "critical-section-impl"] }
+# rp2040-boot2 = "0.3"
+
+[dev-dependencies]
+defmt-test = "0.3"
