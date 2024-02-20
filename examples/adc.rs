@@ -8,11 +8,11 @@ use defmt_rtt as _;
 use panic_probe as _;
 
 use bsp::hal::{
-    clocks::{init_clocks_and_plls, Clock},
-    watchdog::Watchdog,
     adc::{Adc, AdcPin},
+    clocks::{init_clocks_and_plls, Clock},
     pac,
     sio::Sio,
+    watchdog::Watchdog,
 };
 use defmt::info;
 use embedded_hal::adc::OneShot;
