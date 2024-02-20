@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "base_key=${{ github.workflow }}-${{ github.job }}-${{ matrix.os }}-${{ steps.toolchain.outputs.rustc_hash }}-${{ hashFiles('Cargo.toml') }}" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
@@ -64,7 +64,7 @@ jobs:
         run: |
           echo "base_key=${{ github.workflow }}-${{ github.job }}-${{ steps.toolchain.outputs.rustc_hash }}-${{ hashFiles('Cargo.toml') }}" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: |
             ~/.cargo/registry
