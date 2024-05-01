@@ -20,4 +20,4 @@ rp-pico = "0.8"
 # rp2040-boot2 = "0.3"
 
 [dev-dependencies]
-defmt-test = "0.3"
+defmt-test = "0.3.2"
