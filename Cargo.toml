@@ -14,7 +14,7 @@ fugit = "0.3"
 nmea = { version = "0.6", default_features = false, features = ["all-sentences"] }
 panic-probe = { version = "0.3", features = ["print-defmt"] }
 # Board support for RP Pico
-rp-pico = "0.8"
+rp-pico = "0.9"
 # If you're not going to use a Board Support Package you'll need these:
 # rp2040-hal = { version="0.9", features=["rt", "critical-section-impl"] }
 # rp2040-boot2 = "0.3"
